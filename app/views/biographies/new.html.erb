@@ -1,0 +1,11 @@
+<% content_for :title, "New biography" %>
+
+<h1>New biography</h1>
+
+<%= render "form", biography: @biography %>
+
+<br>
+
+<div>
+  <%= link_to "Back to biographies", biographies_path %>
+</div>

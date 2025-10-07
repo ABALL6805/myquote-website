@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @biography %>
+
+<div>
+  <%= link_to "Edit this biography", edit_biography_path(@biography) %> |
+  <%= link_to "Back to biographies", biographies_path %>
+
+  <%= button_to "Destroy this biography", @biography, method: :delete %>
+</div>
