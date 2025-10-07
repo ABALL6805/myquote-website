@@ -4,7 +4,15 @@ class UsersController < ApplicationController
 
   # GET /users or /users.json
   def index
-    @users = User.all
+    # @users = User.all
+    if logged_in? && is_administrator?
+      @users = User.all
+    elsif logged_in? && !is_administrator?
+      redirect_to userhome_path
+    else
+      flash[:error] = "You are not authorised to access this resource"
+      redirect_to login_path
+    end
   end
 
   # GET /users/1 or /users/1.json
