@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
     session[:is_admin]
   end
 
-  private
+private
 
   def require_login
     unless logged_in?

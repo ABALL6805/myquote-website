@@ -16,6 +16,7 @@ class QuotesController < ApplicationController
   def new
     @quote = Quote.new
     @quote.build_author   # Copilot code - How do I create fields for a the author model in a quote form?
+    @quote.build_biography
     8.times { @quote.category_quotes.build }
   end
 
@@ -26,9 +27,10 @@ class QuotesController < ApplicationController
   # POST /quotes or /quotes.json
   def create
     author_params = quote_params.delete(:author_attributes)  # Copilot code - How do I check for an existing author before creating one?
-    author = Author.find_or_create_by(fname: author_params[:fname], lname: author_params[:lname]) # Copilot code - How do I check for an existing author before creating one?
+    author = Author.find_or_create_by(fname: author_params[:fname], lname: author_params[:lname], birth_year: author_params[:birth_year], death_year: author_params[:death_year]) # Copilot code - How do I check for an existing author before creating one?
     @quote = Quote.new(quote_params)
     @quote.author = author  # Copilot code - How do I check for an existing author before creating one?
+    @quote.biography.author = author
 
     respond_to do |format|
       if @quote.save
@@ -43,6 +45,12 @@ class QuotesController < ApplicationController
 
   # PATCH/PUT /quotes/1 or /quotes/1.json
   def update
+    author_params = quote_params.delete(:author_attributes)  # Copilot code - How do I check for an existing author before creating one?
+    author = Author.find_or_create_by(fname: author_params[:fname], lname: author_params[:lname], birth_year: author_params[:birth_year], death_year: author_params[:death_year]) # Copilot code - How do I check for an existing author before creating one?
+    @quote = Quote.new(quote_params)
+    @quote.author = author  # Copilot code - How do I check for an existing author before creating one?
+    @quote.biography.author = author
+
     respond_to do |format|
       if @quote.update(quote_params)
         format.html { redirect_to @quote, notice: "Quote was successfully updated.", status: :see_other }
@@ -73,9 +81,10 @@ class QuotesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def quote_params
       params.require(:quote).permit(
-      :quote, :comment, :is_public, :user_id,
-      author_attributes: [:fname, :lname],   # Copilot code - How do I create fields for a the author model in a quote form?
-      category_quotes_attributes: [:category_id, :id, :_destroy]
+      :quote, :pub_year, :comment, :is_public, :user_id,
+      author_attributes: [:fname, :lname, :birth_year, :death_year],   # Copilot code - How do I create fields for a the author model in a quote form?
+      category_quotes_attributes: [:category_id, :id, :_destroy],
+      biography_attributes: [:biography]
     )
   end
 end

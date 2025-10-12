@@ -15,17 +15,31 @@
   <!-- Form fields associated with the quotes table -->
   <%= f.fields_for :author do |author_fields| %>    <!-- Copilot code - How do I create fields for a the author model in a quote form?-->
   <div class="form-group" style="padding-bottom: 10px;">
-    <%= author_fields.label :fname, "Author's First Name -- REQUIRED" %>
-    <%= author_fields.text_field :fname, class: 'form-control', required: true %>
+    <%= author_fields.text_field :fname, placeholder: 'Author First Name -- REQUIRED', class: 'form-control', required: true %>
   </div>
   <div class="form-group" style="padding-bottom: 10px;">
-    <%= author_fields.label :lname, "Author Last Name (optional)" %>
-    <%= author_fields.text_field :lname, class: 'form-control' %>
+    <%= author_fields.text_field :lname, placeholder: 'Author Last Name (Optional)', class: 'form-control' %>
+  </div>
+  <div class="form-group" style="padding-bottom: 10px;">
+    <%= author_fields.number_field :birth_year, placeholder: 'Author Birth Year (Optional)', class: 'form-control' %>
+  </div>
+  <div class="form-group" style="padding-bottom: 10px;">
+    <%= author_fields.number_field :death_year, placeholder: 'Author Death Year (Optional)', class: 'form-control' %>
+  </div>
+<% end %>
+
+  <%= f.fields_for :biography do |biography_fields| %>
+  <div class="form-group" style="padding-bottom: 40px;">
+    <%= biography_fields.text_area :biography, placeholder: 'Author Biography (Optional)', class: 'form-control' %>
   </div>
 <% end %>
 
   <div class="form-group" style="padding-bottom: 10px;">
-    <%= f.text_area :quote, placeholder: 'Quote', class: 'form-control' %>
+    <%= f.text_area :quote, placeholder: 'Quote', class: 'form-control', required: true %>
+  </div>
+
+  <div class="form-group" style='padding-bottom: 10px;'>
+    <%= f.number_field :pub_year, placeholder: 'Year Published (Optional)', class: 'form-control' %>
   </div>
 
   <div class="form-group" style="padding-bottom: 10px;">
@@ -33,7 +47,7 @@
   </div>
 
   <div class="form-check" style="padding-bottom: 10px;">
-    <%= f.label :is_public do %>
+    <%= f.label :is_visible do %>
     Public
     <%= f.check_box :is_visible, class: "form-check-input" %>
     <% end %>
