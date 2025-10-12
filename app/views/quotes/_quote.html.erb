@@ -1,5 +1,10 @@
 <div id="<%= dom_id quote %>">
   <p>
+    <strong>Author:</strong>
+    <%= [quote.author.fname, quote.author.lname].compact.join(' ') %>
+  </p>  
+
+  <p>
     <strong>Quote:</strong>
     <%= quote.quote %>
   </p>
@@ -22,6 +27,30 @@
   <p>
     <strong>Upload date:</strong>
     <%= quote.upload_date %>
+  </p>
+
+  <h3 style="padding-top: 50px;">
+    <strong>More About The Author</strong>
+  </h3>
+
+  <p>
+    <strong>Name:</strong>
+    <%= [quote.author.fname, quote.author.lname].compact.join(' ') %>
+  </p>
+
+  <p>
+    <strong>Birth Year:</strong>
+    <%= quote.author.birth_year %>
+  </p>
+
+  <p>
+    <strong>Death Year:</strong>
+    <%= quote.author.death_year %>
+  </p>
+
+  <p>
+    <strong>Biography:</strong>
+    <%= quote.biography.biography %>
   </p>
 
 </div>
