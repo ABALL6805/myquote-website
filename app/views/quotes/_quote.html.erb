@@ -9,15 +9,21 @@
     <%= quote.quote %>
   </p>
 
+<!-- Hide missing entries for neatness -->
+<% if quote.pub_year.present? %>
   <p>
     <strong>Pub year:</strong>
     <%= quote.pub_year %>
   </p>
+<% end %>
 
+<!-- Hide missing entries for neatness -->
+<% if quote.comment.present? %>
   <p>
     <strong>Comment:</strong>
     <%= quote.comment %>
   </p>
+<% end %>
 
   <p>
     <strong>Is visible:</strong>
@@ -37,20 +43,28 @@
     <strong>Name:</strong>
     <%= [quote.author.fname, quote.author.lname].compact.join(' ') %>
   </p>
-
+<!-- Hide missing entries for neatness -->
+<% if quote.author.birth_year.present? %>
   <p>
     <strong>Birth Year:</strong>
     <%= quote.author.birth_year %>
   </p>
+<% end %>
 
+<!-- Hide missing entries for neatness -->
+<% if quote.author.death_year.present? %>
   <p>
     <strong>Death Year:</strong>
     <%= quote.author.death_year %>
   </p>
+<% end %>
 
+<!-- Prevents errors resulting from missing biography -->
+<% if quote.biography.present? %>
   <p>
     <strong>Biography:</strong>
     <%= quote.biography.biography %>
   </p>
+<% end %>
 
 </div>
