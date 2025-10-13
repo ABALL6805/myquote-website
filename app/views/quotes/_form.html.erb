@@ -15,7 +15,7 @@
   <!-- Form fields associated with the quotes table -->
   <%= f.fields_for :author do |author_fields| %>    <!-- Copilot code - How do I create fields for a the author model in a quote form?-->
   <div class="form-group" style="padding-bottom: 10px;">
-    <%= author_fields.text_field :fname, placeholder: 'Author First Name -- REQUIRED', class: 'form-control', required: true %>
+    <%= author_fields.text_field :fname, placeholder: 'Author First Name (Leave blank if unknown)', class: 'form-control' %>
   </div>
   <div class="form-group" style="padding-bottom: 10px;">
     <%= author_fields.text_field :lname, placeholder: 'Author Last Name (Optional)', class: 'form-control' %>

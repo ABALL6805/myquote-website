@@ -27,7 +27,12 @@ class QuotesController < ApplicationController
   # POST /quotes or /quotes.json
   def create
     author_params = quote_params.delete(:author_attributes)  # Copilot code - How do I check for an existing author before creating one?
-    author = Author.find_or_create_by(fname: author_params[:fname], lname: author_params[:lname], birth_year: author_params[:birth_year], death_year: author_params[:death_year]) # Copilot code - How do I check for an existing author before creating one?
+
+    # Copilot code - How do I set the Author's first name to anonymous if the text field is left blank?
+    fname = author_params[:fname]
+    fname = "Anonymous" if fname.blank?
+
+    author = Author.find_or_create_by(fname: fname, lname: author_params[:lname], birth_year: author_params[:birth_year], death_year: author_params[:death_year]) # Copilot code - How do I check for an existing author before creating one?
     @quote = Quote.new(quote_params)
     @quote.author = author  # Copilot code - How do I check for an existing author before creating one?
     @quote.biography.author = author
@@ -45,26 +50,38 @@ class QuotesController < ApplicationController
 
   # PATCH/PUT /quotes/1 or /quotes/1.json
   def update
-    author_params = quote_params.delete(:author_attributes)  # Copilot code - How do I check for an existing author before creating one?
-    author = Author.find_or_create_by(fname: author_params[:fname], lname: author_params[:lname], birth_year: author_params[:birth_year], death_year: author_params[:death_year]) # Copilot code - How do I check for an existing author before creating one?
-    @quote = Quote.new(quote_params)
-    @quote.author = author  # Copilot code - How do I check for an existing author before creating one?
-    @quote.biography.author = author
+    # Prevents unauthorised user editing 
+    if logged_in? && (@quote.user_id == current_user.id || is_administrator?)
+      author_params = quote_params.delete(:author_attributes)  # Copilot code - How do I check for an existing author before creating one?
+      author = Author.find_or_create_by(fname: author_params[:fname], lname: author_params[:lname], birth_year: author_params[:birth_year], death_year: author_params[:death_year]) # Copilot code - How do I check for an existing author before creating one?
+      @quote = Quote.new(quote_params)
+      @quote.author = author  # Copilot code - How do I check for an existing author before creating one?
+      @quote.biography.author = author
 
-    respond_to do |format|
-      if @quote.update(quote_params)
-        format.html { redirect_to @quote, notice: "Quote was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @quote }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @quote.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @quote.update(quote_params)
+          format.html { redirect_to @quote, notice: "Quote was successfully updated.", status: :see_other }
+          format.json { render :show, status: :ok, location: @quote }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @quote.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      flash[:error] = "You are not authorised to delete this resource"
+      redirect_to login_path
     end
   end
 
   # DELETE /quotes/1 or /quotes/1.json
   def destroy
-    @quote.destroy!
+    # Prevents unauthorised user deleting 
+    if logged_in? && (@quote.user_id == current_user.id || is_administrator?)
+      @quote.destroy!
+    else
+      flash[:error] = "You are not authorised to delete this resource"
+      redirect_to login_path
+    end
 
     respond_to do |format|
       format.html { redirect_to quotes_path, notice: "Quote was successfully destroyed.", status: :see_other }
