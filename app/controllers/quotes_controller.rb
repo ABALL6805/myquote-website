@@ -5,7 +5,9 @@ class QuotesController < ApplicationController
   # GET /quotes or /quotes.json
   def index
     #@quotes = Quote.all
-    @quotes = current_user.quotes
+    if logged_in?
+      @quotes = current_user.quotes
+    end
   end
 
   # GET /quotes/1 or /quotes/1.json
@@ -29,10 +31,15 @@ class QuotesController < ApplicationController
     author_params = quote_params.delete(:author_attributes)  # Copilot code - How do I check for an existing author before creating one?
 
     # Copilot code - How do I set the Author's first name to anonymous if the text field is left blank?
-    fname = author_params[:fname]
-    fname = "Anonymous" if fname.blank?
+    fname = author_params[:fname].to_s.strip.presence || "Anonymous"
+    lname = author_params[:lname].to_s.strip.presence
+  
+    # Copilot code - How do I check for an existing author before creating one?
+    author = Author.find_or_create_by(fname: fname, lname: lname, birth_year: author_params[:birth_year], death_year: author_params[:death_year]) 
+    author.birth_year = author.birth_year.to_i if author.birth_year.present?
+    author.death_year = author.death_year.to_i if author.death_year.present?
+    author.save if author.new_record? || author.changed?
 
-    author = Author.find_or_create_by(fname: fname, lname: author_params[:lname], birth_year: author_params[:birth_year], death_year: author_params[:death_year]) # Copilot code - How do I check for an existing author before creating one?
     @quote = Quote.new(quote_params)
     @quote.author = author  # Copilot code - How do I check for an existing author before creating one?
     @quote.biography.author = author if @quote.biography.present?
