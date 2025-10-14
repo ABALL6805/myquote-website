@@ -7,7 +7,14 @@
   <% if logged_in? && (@quote.user_id == current_user.id || is_administrator?) %>
     <%= link_to "Edit this quote", edit_quote_path(@quote) %> |
   <% end %>
-  <%= link_to "Back to quotes", quotes_path %>
+
+  <!-- Prevents errors when going back to quotes when not logged in -->
+  <% if logged_in? %>
+    <%= link_to "Back to quotes", quotes_path %>
+  <% else %>
+    <%= link_to "Back to home", root_path %>
+  <% end %>
+
 <div style="padding-top:20px;">
 <!-- prevents deletion button showing for unauthorised users (enforced in the quote controller) -->
 <% if logged_in? && (@quote.user_id == current_user.id || is_administrator?) %>
