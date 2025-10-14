@@ -97,13 +97,13 @@ class QuotesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_quote
-      @quote = Quote.find(params.expect(:id))
+      @quote = Quote.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def quote_params
       permitted = [
-      :quote, :pub_year, :comment, :is_public, :user_id,
+      :quote, :pub_year, :comment, :is_visible, :user_id,
       author_attributes: [:fname, :lname, :birth_year, :death_year],   # Copilot code - How do I create fields for a the author model in a quote form?
       biography_attributes: [:biography]
       ]
