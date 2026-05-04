@@ -1,28 +1,21 @@
-<<<<<<< HEAD
-# myquote-website
+# MyQuote-website
 
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a simple Website application assessment written in Ruby on Rails developed in Ubuntu on a Microsoft Azure virtual machine.
 
-Things you may want to cover:
+# FEATURES
 
-* Ruby version
+* Admin and User profiles
 
-* System dependencies
+* Relational database to keep track of users and posts
 
-* Configuration
+* The ability to create posts about a user's favourite quotes
 
-* Database creation
+* Quotes can be assigned to categories, with support for naming authors and their biography OR Anonymous authors
 
-* Database initialization
+* Post search feature
 
-* How to run the test suite
+* Support for private posts
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
->>>>>>> d957ad5 (Added Quote creation page initial version - still needs biography and category functionality)
+* Simple GUI
